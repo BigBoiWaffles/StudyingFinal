@@ -5,8 +5,9 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/lab1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lab2" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Lab4" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Observer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/builder" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
