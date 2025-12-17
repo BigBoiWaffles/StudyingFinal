@@ -8,8 +8,12 @@
       <sourceFolder url="file://$MODULE_DIR$/Lab4" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Observer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Builder" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Command" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Composite" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Factory" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Iterator" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Strategy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Visitor" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
