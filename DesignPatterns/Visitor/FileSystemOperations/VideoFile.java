@@ -1,6 +1,6 @@
 package FileSystemOperations;
 
-public class VideoFile {
+public class VideoFile implements FileElement{
     private String name;
     private String codec;
     private int duration; // in seconds
@@ -13,8 +13,16 @@ public class VideoFile {
         this.size = size;
     }
 
+    @Override
     public String getName() { return name; }
     public String getCodec() { return codec; }
     public int getDuration() { return duration; }
+
+    @Override
     public int getSize() { return size; }
+
+    @Override
+    public void accept(FileVisitor fv){
+        fv.visit(this);
+    }
 }

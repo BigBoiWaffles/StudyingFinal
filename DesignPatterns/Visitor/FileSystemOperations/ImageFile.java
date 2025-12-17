@@ -1,6 +1,8 @@
 package FileSystemOperations;
 
-public class ImageFile {
+import java.io.File;
+
+public class ImageFile implements FileElement{
     private String name;
     private String format; // jpg, png, etc.
     private int width;
@@ -15,9 +17,17 @@ public class ImageFile {
         this.size = size;
     }
 
+    @Override
     public String getName() { return name; }
     public String getFormat() { return format; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+
+    @Override
     public int getSize() { return size; }
+
+    @Override
+    public void accept(FileVisitor fv){
+        fv.visit(this);
+    }
 }
