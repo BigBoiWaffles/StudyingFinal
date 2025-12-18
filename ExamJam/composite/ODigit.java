@@ -9,29 +9,12 @@ public class ODigit implements AODigit {
 		this.digit=0;
 	}
 
-	@Override
-	public void increment() {
-		this.digit++;
-		if(this.digit==10) {
-			this.digit=0;
-			this.next.increment();
-		}
-		
-	}
+    @Override
+    public void accept(Visitor v){
+        v.visit(this);
+    }
 
-	@Override
-	public String stringRep() {
-		return this.next.stringRep()+this.digit;
-	}
-
-	@Override
-	public void decrement() {
-		this.digit--;
-		if(this.digit==-1){
-			this.digit=9;
-			this.next.decrement();
-		}
-	}
-
-
+    public int getDigit(){ return this.digit; }
+    public void setDigit(int digit){ this.digit = digit; }
+    public AODigit getNext(){ return this.next; }
 }

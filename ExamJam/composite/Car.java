@@ -7,25 +7,39 @@ package composite;
  */
 public class Car {
 	private AODigit odometer = new OEnd();
+    private IncrementVisitor incrementVisitor;
+    private DecrementVisitor decrementVisitor;
+    private StringRepVisitor stringRepVisitor;
 
 	public Car() {
 		odometer = new ODigit(odometer);
 		odometer = new ODigit(odometer);
 		odometer = new ODigit(odometer);
+        incrementVisitor = new IncrementVisitor();
+        decrementVisitor = new DecrementVisitor();
+        stringRepVisitor = new StringRepVisitor();
 	}
 	
 	public void go() {
+
 		for(int i=0;i<1005;i++) {
-			System.out.println(odometer.stringRep());
-			odometer.increment();
+            stringRepVisitor = new StringRepVisitor();
+            odometer.accept(stringRepVisitor);
+			System.out.println(stringRepVisitor.getResult());
+
+			odometer.accept(incrementVisitor);
 		}
 		for(int i=0;i<10;i++) {
-			System.out.println(odometer.stringRep());
-			odometer.decrement();
+            stringRepVisitor = new StringRepVisitor();
+            odometer.accept(stringRepVisitor);
+			System.out.println(stringRepVisitor.getResult());
+			odometer.accept(decrementVisitor);
 		}
 	}
 	public String toString() {
-		return odometer.stringRep();
+		StringRepVisitor visitor  = new StringRepVisitor();
+        odometer.accept(visitor);
+        return visitor.getResult();
 	}
 	public static void main(String[] args) {
 		Car c = new Car();

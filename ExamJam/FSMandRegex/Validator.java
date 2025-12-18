@@ -2,6 +2,7 @@ package FSMandRegex;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,41 +58,51 @@ public class Validator {
     public void validate() throws Exception {
         BufferedReader inputStream = null;
         try {
-            Pattern pColons = Pattern.compile("^:{14}$");
-            Pattern pStartMarksLine = Pattern.compile("^MARKS For Assignment 1, Part 2$");
-            Pattern pGUIMarks = Pattern.compile("^GUI:\\s*(\\d(.\\d)?)/5\\s*$");
-            Pattern pCodeMarks = Pattern.compile("^CODE:\\s*(\\d(.\\d)?)/5\\s*$");
-            Pattern pEndMarksLine = Pattern.compile("^END MARKS$");
-            Pattern pUtorid=Pattern.compile("^(.*)/JugPuzzleGame/src/JugPuzzleGUIController\\.java$");
+            Pattern pBegin = Pattern.compile("^BEGIN:(.+)+$");
+            Pattern pEnd = Pattern.compile("^END$");
+            Pattern pPhoneNumber = Pattern.compile("^(\\d)\\((\\d+)\\)(\\d+)-(\\d+)$");
+            Pattern pLocalNumber = Pattern.compile("^(\\d+)-(\\d+)$");
 
             inputStream = new BufferedReader(new FileReader(this.fileName));
 
             int state = 0;
+            String currentBlockName = "";
+            ArrayList<PhoneNumber> currentPhoneList = null;
 
             Matcher m;
-            String l, utorid = "";
-            float guiMark = 0, codeMark = 0;
+            String l;
             lineNumber = 0;
             while ((l = inputStream.readLine()) != null) {
                 lineNumber++;
+                if(l.isEmpty()){
+                    continue;
+                }
                 switch (state) {
                     case 0:
-                        m = pColons.matcher(l);
-                        if (m.matches()) {
-                            utorid = "";
-                            guiMark = 0;
-                            codeMark = 0;
+                        m = pBegin.matcher(l);
+                        if (m.matches()){
+                            currentBlockName = m.group(1);
+                            currentPhoneList = new ArrayList<>();
                             state = 1;
+                        } else {
+                            error("Expecting BEGIN:blockName, got: "+ l);
+                            return;
                         }
                         break;
                     case 1:
-                        m = pUtorid.matcher(l);
-                        if (m.matches()) {
-                            utorid = m.group(1);
-                            state = 2;
+                        m = pEnd.matcher(l);
+                        if(m.matches()){
+                            phoneNumbers.put(currentBlockName, currentPhoneList);
+                            state = 0;
                         } else {
-                            error("Expecting utorid line");
-                            return;
+                            PhoneNumber pn = parsePhoneNumber(l);
+                            if (pn != null){
+                                currentPhoneList.add(pn);
+                            } else {
+                                error("Invalid phone number format: " + l);
+                                return;
+                            }
+                            break;
                         }
                 }
             }
@@ -103,5 +114,29 @@ public class Validator {
                 inputStream.close();
             }
         }
+    }
+
+    private PhoneNumber parsePhoneNumber(String line) {
+        // Try full format: 1(234)555-1111
+        Pattern pFullPhone = Pattern.compile("^(\\d+)\\((\\d+)\\)(\\d+)-(\\d+)$");
+        Matcher m = pFullPhone.matcher(line);
+        if (m.matches()) {
+            String countryCode = m.group(1);
+            String areaCode = m.group(2);
+            String centralOfficeCode = m.group(3);
+            String lineNumber = m.group(4);
+            return new PhoneNumber(countryCode, areaCode, centralOfficeCode, lineNumber);
+        }
+
+        // Try 7-digit local format: 555-1212
+        Pattern pLocalPhone = Pattern.compile("^(\\d+)-(\\d+)$");
+        m = pLocalPhone.matcher(line);
+        if (m.matches()) {
+            String centralOfficeCode = m.group(1);
+            String lineNumber = m.group(2);
+            return new PhoneNumber("0", "0", centralOfficeCode, lineNumber);
+        }
+
+        return null; // Invalid format
     }
 }
