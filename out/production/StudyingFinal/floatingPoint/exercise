@@ -1,0 +1,7 @@
+EXERCISE: Use Java or python3 to find the representations for the following
+          7.1 and .03 in the IEEE754 single standard.
+EXERCISE: Add the following IEEE754 numbers. Assume that the arithmetic
+          is done double precision and then rounded back to single precision.
+
+          0[10000010]11000110011001100110011
+          0[01111010]11101011100001010001111

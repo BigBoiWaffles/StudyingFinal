@@ -8,5 +8,7 @@ package balloon;
  * HalfFull: after, Balloon has amount==.5*capacity
  * https://www.oodesign.com/strategy-pattern.html
  */
-public class BalloonInflationStrategy {
+
+public interface BalloonInflationStrategy {
+    void execute(Balloon balloon);
 }

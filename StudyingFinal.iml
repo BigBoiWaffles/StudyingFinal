@@ -15,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Strategy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Visitor" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DesignPatterns/Singleton" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ExamJam" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

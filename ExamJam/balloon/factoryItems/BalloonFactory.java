@@ -1,5 +1,7 @@
-package balloon;
+package balloon.factoryItems;
 
+
+import balloon.Balloon;
 
 /**
  * EXERCISE: Complete BalloonFactory
@@ -16,4 +18,12 @@ package balloon;
  * "MediumOrangeBalloon"
  */
 public class BalloonFactory {
+    public Balloon createBalloon(String product){
+        return switch (product) {
+            case "BigRedBalloon" -> new BigRedBalloon();
+            case "SmallGreenBalloon" -> new SmallGreenBalloon();
+            case "MediumOrangeBalloon" -> new MediumOrangeBalloon();
+            default -> null;
+        };
+    }
 }

@@ -1,4 +1,4 @@
-package balloon;
+package balloon.commands;
 
 /**
  * EXERCISE: Add the Command Design Pattern to Balloon
@@ -15,6 +15,7 @@ package balloon;
  * EXERCISE: Create a main that has a sequence of BalloonCommand and
  * executes the sequence on the Balloon repeatedly
  */
-public class BalloonCommand {
 
+public interface BalloonCommand {
+    void execute();
 }

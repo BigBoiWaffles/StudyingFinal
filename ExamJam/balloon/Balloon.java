@@ -1,9 +1,11 @@
 package balloon;
 public class Balloon {
 
-    private static int numCreated = 0; // total number of Balloons ever created
+    private static int numCreated = 0;// total number of Balloons ever created
+    private static int numPopped = 0;
     public static int getNumCreated() { return numCreated; }
 
+    private String colour;
     private int amount;      // 0<=amount
     private int capacity;    // 0<=amount<=capacity
     private boolean isPopped; // balloons can only be popped once and can never be unpopped
@@ -13,21 +15,18 @@ public class Balloon {
     // EXERCISE: add a way to capture the number of balloons popped
     // EXERCISE: Balloons should have a colour, defaults to "red",
     // allow the user to supply a colour for a new Balloon
-    public Balloon() {
-        this.capacity = 100;
-        this.amount = 0;
-        this.isPopped = false;
-        numCreated += 1;
-    }
 
-    public Balloon(int cap) {
-        if(cap<0) {
-            cap=0;
+    public Balloon(){ this("Red", -1); }
+
+    public Balloon(String colour, int cap){
+        this.colour = colour;
+        if (cap < 0){
+            this.capacity = 100;
+        } else {
+            this.capacity = cap;
         }
-        this.capacity = cap;
-        this.amount = 0;
         this.isPopped = false;
-        numCreated += 1;
+        numCreated = numCreated + 1;
     }
 
     public int getAmount() {
@@ -36,7 +35,6 @@ public class Balloon {
     public int getCapacity() {
         return this.capacity;
     }
-
     public boolean getIsPopped() {
         return this.isPopped;
     }
@@ -51,11 +49,40 @@ public class Balloon {
         if (this.amount > this.capacity) {
             // EXERCISE: create a pop method and call it here
             // only a balloon can call the pop method
+            this.pop();
         }
         if(this.amount<0)this.amount=0;
     }
 
+    public void deflate(int amount){
+        if (this.isPopped) { return; }
+        if (this.amount - amount < 0){
+            this.amount = 0;
+        } else {
+            this.amount = this.amount - amount;
+        }
+    }
+
+    private void pop(){
+        if (this.isPopped){
+            return;
+        }
+        this.capacity = 0;
+        this.amount = 0;
+        this.isPopped = true;
+        numPopped = numPopped + 1;
+    }
+
     // EXERCISE: Write a toString() method, overriding the toString() in Object
+
+    public String toString(){
+        String s="";
+        s=s+"amount="+ this.amount;
+        s=s+" capacity="+ this.capacity;
+        s=s+" color="+ this.colour;
+        s=s+" popped="+ this.isPopped;
+        return s;
+    }
 
     public static void main(String[] args) {
         // EXERCISE: Create various Balloons, inflate them till they pop
