@@ -10,4 +10,12 @@ class BookCollection{
   public void addBook(Book book){
     books.add(book);
   }
+
+  public genreIterator createGenreIterator(String genre){
+    return genreIterator(this.books, genre);
+  }
+
+  public bookIterator createBookIterator(){
+    return bookIterator(this.books);
+  }
 }

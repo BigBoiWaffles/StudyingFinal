@@ -1,18 +1,17 @@
-public class genreIterator implements Iterator {
+import java.util.ArrayList;
+
+public class bookIterator implements Iterator{
   private ArrayList<Book> collection;
   private boolean hasNext = true;
   private int currentPosition = 0;
 
-  public genreIterator(ArrayList<Book> collection, String genre){
-    this.collection = collection;
-  }
-
   @Override
   public Book getNext(){
+    
   }
 
   @Override
   public Boolean hasMore(){
-
+    
   }
-} 
+}
