@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class BookCollection{
+public class BookCollection{
   private ArrayList<Book> books;
 
   public BookCollection(){
@@ -12,10 +12,10 @@ class BookCollection{
   }
 
   public genreIterator createGenreIterator(String genre){
-    return genreIterator(this.books, genre);
+    return new genreIterator(this.books, genre);
   }
 
   public bookIterator createBookIterator(){
-    return bookIterator(this.books);
+    return new bookIterator(this.books);
   }
 }

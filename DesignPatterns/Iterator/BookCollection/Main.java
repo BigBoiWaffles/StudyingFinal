@@ -6,5 +6,18 @@ public class Main{
     library.addBook(new Book("Foundation", "Isaac Asimov", "Sci-Fi"));
 
     library.addBook(new Book("Brave New World", "Aldous Huxley", "Dystopian"));
+
+    bookIterator cycleBooks = library.createBookIterator();
+    System.out.println(cycleBooks.getNext());
+    System.out.println(cycleBooks.getNext());
+    System.out.println(cycleBooks.getNext());
+    System.out.println(cycleBooks.getNext());
+    System.out.println(cycleBooks.getNext());
+
+    genreIterator cycleGenre = library.createGenreIterator("Sci-Fi");
+    System.out.println(cycleGenre.getNext());
+    System.out.println(cycleGenre.getNext());
+    System.out.println(cycleGenre.getNext());
+
   }
 }
