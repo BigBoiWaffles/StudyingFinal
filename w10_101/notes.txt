@@ -1,0 +1,284 @@
+Intro to FSM's
+	- Review slides from previous week for motivating idea and concept
+
+	- Go through worked example of using an FSM  to implement a more complicated RegEx from previous week's code package
+
+
+Floating Point error:
+
+	Let's review a motivating demonstration: Adding.java
+
+	Why does Java behave this way? Is Better yet, let's just use something else that's just "made better"! Well...turns out it's not just Java, it's also Python, and many other programming languages (but not all!) Since we're scientists, we now need to explore this phenomenon and understand what and why this is happening. 
+
+	============================================
+	
+	1) Review Base 10 number system
+
+	============================================
+
+
+		abcd          = a*10^(3) + b*10^(2) + c*10^(1) + d*10^(0)
+
+		d_3d_2d_1d_0  = ∑d_i*10^(i) (where each digit is a number between 0-9: 0 to base-1)
+
+		
+		Specifically, note that as the decimals moves left/right, we jump POWERS of 10. 
+
+	============================================
+
+	2) Base 2 number system
+	
+	============================================
+
+		Same construct as base 10, however, each digit represents a power of 2 (instead of a power of 10), and each digit is either 0 or 1 (that is, it's still between 0 and base-1). 
+
+		abcd          = a*2^(3) + b*2^(2) + c*2^(1) + d*2^(0)
+
+		d_3d_2d_1d_0  = ∑d_i*2^(i)
+
+
+
+
+	============================================
+
+	3) Converting between Base 10 and Base 2
+
+	============================================
+
+
+		i) Example: Integer
+		-------------------
+			
+		Convert 263 into binary. We do this by repeatedly dividing by 2 to see how many powers of 2 are in the number
+
+			Div by 2	Quotient	Remainder
+			--------	---------	---------
+			(263)/2		131		1		^
+			(131)/2		65		1		|
+			(65)/2		32		1		|
+			(32)/2		16		0		|
+			(16)/2		8		0		|
+			(8)/2		4		0		|
+			(4)/2		2		0		|
+			(2)/2		1		0		|
+			(1)/2		0		1		|
+
+
+			We then construct the base 2 number by reading the remainders from the bottom up. 
+
+			Thus, 263 = 100000111
+
+
+		ii) Example: Representable Decimal
+		----------------------------------
+
+		Convert 12.25 into binary
+
+			Handling the integer portion is the same as the previous example: 1    1    0    0
+											  --  --   --    --
+											  2^3  2^2  2^1  2^0
+
+
+			Converting the decimal portion, at its core, is the same idea as converting the integer portion. However, since decimals are less than 1, the number of powers of 2 will inherently be a negative number (i.e. there has to be negative powers of 2 in a decimal number). 
+
+			0.25 = 1/4 = 1/2^2 = 2^(-2) = 0. 0         1 (in binary)
+						         --        --
+							 2^(-1)    2^(-2)
+
+			Thus, 12.25 in binary is 1100.01
+
+
+
+		iii) Example: Non-Representable Decimal
+		---------------------------------------
+		
+		Convert 75.3 into binary
+
+
+
+			Div by 2	Quotient	Remainder
+			--------	---------	---------
+			(75)/2		37		1		^
+			(37)/2		18		1		|
+			(18)/2		9		0		|
+			(9)/2		4		1		|
+			(4)/2		2		0		|
+			(2)/2		1		0		|
+			(1)/2		0		1		|
+
+			75 = 1001011
+		
+
+			Now for the decimal:
+
+			Mult by 2	Result		1's digit
+			--------	---------	---------
+			(0.3)*2		0.6		0		|
+		----->	(0.6)*2		1.2		1		|
+			(0.2)*2		0.4		0		|
+			(0.4)*2		0.8		0		|
+			(0.8)*2		1.6		1		|
+		----->	(0.6)*2		1.2		1		|
+			(0.2)*2		0.4		0		v
+
+				    ____
+			so 0.3 = 0.01001 (i.e. 0.0 with 1001 repeating). 
+					       ____
+			Making 75.3 = 1001011.01001
+
+
+			Since there is an infinitely repeating portion, this means that this number is not representable in base 2. This is not a foreign notion though, as we have many common examples of such numbers in base 10 (they are just a different set than in other bases). For example, 1/3 =0.333... in base 10, and that is non-representable. 
+
+
+	============================================
+
+	4) Scientific notation
+
+	============================================
+
+		Whether we are in base 10 or base 2, we have the ability to write numbers in the form:
+
+
+		+/- d1.d2 d3 ... .dn x 2^(e)
+
+                Where "+/-" is the sign
+		d1 d2 d3 ... dn is called "the mantissa"
+                and e is "the exponent"
+	
+
+		i) Example 1
+		--------------
+
+			Write 75.3 in scientific notation in both base 10 and base 2. 
+
+			Ans: 7.53*10^2
+				      ____
+			     1.00101101001*2^6
+
+
+		ii) Example 2: Normalized numbers
+		-----------------------------------
+			Notice how a binary number's leading digit is always 1 in scientific notation
+
+			
+			12.25 = 1100.01 in binary = 1.10001*2^3
+
+			263 = 100000111 = 1.00000111*10^8
+
+
+		Therefore, a binary number written in scientific notation is "normalized"
+
+
+	=============================================================
+
+	5) Theory vs Practice - A limitation of physical memory
+
+	=============================================================
+
+
+		In theory, we can represent any rational number perfectly on paper by simply indicating that there is a repeating segment. However, what if we only had a limited number of digits to use? I'm lazy, and don't want to type out 32 digits, so for this text file let's pretend we have a memory limitation of 9 digits in the mantissa. 
+
+
+		With 9 digits, then 263 = 1.00000111*10^8 can be perfectly represented. 
+				    ____
+		But 75.3 = 1.00101101001*2^6 would be 1.00101101*2^6 (we are missing the last 3 digits in the repeated pattern...001)
+
+
+		The root of floating point error stems from having to truncate numbers that need have more digits than available bits of memory. Any non-representable number will inherently have truncation at any level of precision. However, even some representable numbers may have truncation if they are large enough (or have too many decimal numbers)
+
+
+
+
+		i) Example 1
+		-------------
+
+		a = 1.23450x10^12
+		b = 1.25000x10^2
+
+		Compute: (a+b), (a+b) - a, and (a-a) + b, with a memory cap of 6 digits.
+
+		Ans:
+			(a + b)
+			   1.23450x10^12  = 1.23450          x10^12
+			+  1.25000x10^2   = 0.000000000125000x10^12 (in theory)
+					  = 0.00000 x 10^12         (if but is represented as 0 with only 6 digits)
+					    -----------------------
+					  = 1.23450x10^12
+					  = a
+
+			So it appears as though (a+b) = a....which is technically not correct
+
+
+			(a+b)-a = (1.23450x10^12 + 1.25000x10^2) - 1.23450x10^12
+			        = (1.23450x10^12               ) - 1.23450x10^12
+			        = 0.00000x10^12 
+			        = 0.00000x10^0
+			   b	= 0?????
+			
+			So in this case, it seems b = 125 = 0...which is obviously not true in real life
+
+
+
+			(a-a)+b = (1.23450x10^12 - 1.23450x10^12) + 1.25000x10^2
+			        = (0.00000x10^12                ) + 1.25000x10^2
+			        = (0.00000x10^0                 ) + 1.25000x10^2
+			        = (0.00000x10^2                 ) + 1.25000x10^2
+			   b    = 1.25000x10^2
+		
+		
+			Ah, but here the theoretical value of b matches the computational value of b.
+
+		These basic examples should help illustrate the root cause of floating point error :)
+			
+	
+	==================================================
+	
+	6) How numbers are stored on a computer: IEEE 754
+
+	=================================================
+
+		There are many different (possibly infinite) logical ways/algorithms we could use to store numbers in a computer. Even now as you're reading this, you may be creatively thinking to yourself possible algorithms to handle storing a repeating portion as to not lose any accuracy (or not introduce any error). However, if every computer just implemented its own way of storing numbers then how could anyone make programs that could run on multiple systems/hardware?! 
+
+
+		There is an international standard called IEEE 754 that defines an algorithms/pattern that tells us how to store the required information from a normalized binary number as a sequence of 32 bits.
+
+
+
+		+/-  1.d_1_d_2d_3d_4.... *2^( e )
+		        ^^^^^^^^^^^^^^^^     ----
+		sign        mantissa	    exponent
+
+		 x        xxxxxxxx             1.xxxxxxxxxxxxxxxxxxxxxxx
+		-----    ----------------      -----------------------   
+		1 bit	  8 bits		23 bits
+		sign      binary(127 + exp)	decimal portion of mantissa
+		(0 = pos)
+
+
+		i) Example 1:
+		-------------
+
+		How does a computer store 12.25 in memory?
+		
+		i)   convert number to binary 12.25 = 1100.01
+		ii)  normalize binary number 1100.01 = 1.10001*2^3
+		iii) Calculate binary(127 + exp): 127 + 3 = 130 = 10000010
+		iv)  Map out all the components of IEEE format:
+			sign bit: 0
+			exp bits: 100000010
+			Mantissa: 10001000000000000000000(right-padded with leading 0's as needed to total 23)
+
+		Therefore, 12.25 in IEEE is 010000001010001000000000000000000
+
+		Note: 
+			float  = 32 bits (pattern above)
+			double = 64 bits
+			
+				  sign:      1  bit
+				  exp:       11 bits (with an offset of 1023, instead of 127)
+				  mantissa:  52 bits (instead of 32)
+
+
+	
+
+		

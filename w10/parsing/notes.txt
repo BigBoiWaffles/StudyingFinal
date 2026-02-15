@@ -1,0 +1,41 @@
+Finite State Machines
+
+We are interested in strings over some alphabet Sigma.
+Sigma* is the set of all finite strings over Sigma.
+
+For example, if Sigma1={a,b,c,...,z} then 
+"" is in Sigma1*
+"abc" is in Sigma1*
+"aaz cc" is in Sigma1*
+
+For example, if Sigma2={0,1,2,3,4,5,6,7,8,9} then 
+Sigma2* is the set of all numbers, even the empty string
+is in Sigma2*
+
+Now we are interested in certain subsets of Sigma*
+For example, the language of all 'words' beginning with "a"
+in Sigma1* or the language of all numbers which are divisible by 
+5 in Sigma2*.
+
+A FSM is a tuple 
+M=(q0,Q,delta,A, Sigma) where 
+Sigma is the underlying alphabet
+Q={q0,...,qn} is a collection of states
+delta:QxSigma -> Q is a transition function
+delta(q,s)=q' means if in state q, scanning symbol s then move to state
+              q', consuming symbol s
+
+q0 is the special start state
+A<=Q is the collection of accepting states.
+
+Def: Start M with input x. If we consume all symbols x and end
+up in the accepting state, then M accepts x.
+
+Def: L_M = { x in Sigma* : M accepts x }
+
+Note: If we get stuck on a symbol, then M rejects x
+Note: If we consume all of x and end up in a non-accepting state
+      then M rejects x.
+
+
+We can represent delta by a Finite State Diagram...
