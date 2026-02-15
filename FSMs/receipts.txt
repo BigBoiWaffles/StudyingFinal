@@ -1,0 +1,14 @@
+=== RECEIPT ===
+Store: WalMart
+Date: 2023-10-27
+Item: Milk - 4.99
+Item: Bread - 2.50
+Item: Eggs - 3.00
+Total: 10.49
+=== END ===
+=== RECEIPT ===
+Store: BestBuy
+Date: 2023-11-01
+Item: Laptop - 999.99
+Total: 999.99
+=== END ===
