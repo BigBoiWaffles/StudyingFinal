@@ -1,0 +1,24 @@
+
+Here are some regex exercises for practice. :D
+
+1. Match a string that only consists of digits.
+
+2. Match a string that is at least 5 characters long, and only consists of alphanumeric characters.
+
+3. Match a string that is in the format of a phone number like so: ###-###-#### where each # symbol is a number.
+
+4. Match a string that contains at least 3 vowels.
+
+5. Match a string that contains 4 consecutive lowercase consonants.
+
+6. Match a string that contains two words and the first letter in each word is capitalized.
+
+7. Match a valid postal code, for example M5R 1E4 (with one space in between).
+
+8. Match a valid postal code with all digits the same, for example M5R 5E5.
+
+9. Match a string containing two words that are the same. Use \b to indicate
+the boundaries of a word.
+
+10. Match a string that represents time in hh:mm:ss format, where hh is hours between 01 and 12, and mm and ss represent minutes and seconds between 00 and 59. Valid examples include 01:26:18 and 11:00:39. Invalid examples include 13:01:01, 00:00:00, and 01:00:60.
+
