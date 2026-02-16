@@ -1,4 +1,6 @@
-package ca.utoronto.utm.examjam.balloon;
+// package ca.utoronto.utm.examjam.balloon;
+
+import java.util.ArrayList;
 
 /**
  * EXERCISE: Add the Command Design Pattern to Balloon
@@ -17,4 +19,20 @@ package ca.utoronto.utm.examjam.balloon;
  */
 public class BalloonCommand {
 
+  public static void main(String[] args){
+    Balloon b = new Balloon(100, "Red");
+
+    ArrayList<Command> commandSequence = new ArrayList<Command>();
+    Command cmd1 = new InflateFullCommand(b);
+    Command cmd2 = new PopCommand(b);
+
+    commandSequence.add(cmd1);
+    commandSequence.add(cmd2);
+
+    for (Command cmd : commandSequence){
+      cmd.execute();
+      System.out.println(b);
+    }
+
+  }
 }

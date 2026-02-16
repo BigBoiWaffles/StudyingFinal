@@ -1,4 +1,4 @@
-package ca.utoronto.utm.examjam.balloon;
+// package ca.utoronto.utm.examjam.balloon;
 
 /**
  * Create a collection of BalloonInflationStrategies
@@ -8,5 +8,6 @@ package ca.utoronto.utm.examjam.balloon;
  * HalfFull: after, Balloon has amount==.5*capacity
  * https://www.oodesign.com/strategy-pattern.html
  */
-public class BalloonInflationStrategy {
+public interface BalloonInflationStrategy {
+  void execute(Balloon b);
 }

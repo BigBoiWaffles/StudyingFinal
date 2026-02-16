@@ -74,6 +74,14 @@ public class Balloon {
         if(this.amount<0)this.amount=0;
     }
 
+    public void deflate(int amount){
+      if (this.isPopped) { return; }
+      if ((this.amount - amount) <= 0){
+        this.amount = 0;
+        return;
+      }
+    }
+
     // EXERCISE: Write a toString() method, overriding the toString() in Object
 
     public String toString(){

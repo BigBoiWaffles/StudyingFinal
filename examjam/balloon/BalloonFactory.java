@@ -16,9 +16,9 @@
  */
 public class BalloonFactory {
   public Balloon getBalloon(String s){
-    if (s == "BigRedBalloon"){ return new BigRedBalloon(); }
-    if (s == "SmallGreenBalloon") { return new SmallGreenBalloon(); }
-    if (s == "MediumOrangeBalloon") { return new MediumOrangeBalloon(); }
+    if (s.equals("BigRedBalloon")){ return new BigRedBalloon(); }
+    if (s.equals("SmallGreenBalloon")) { return new SmallGreenBalloon(); }
+    if (s.equals("MediumOrangeBalloon")) { return new MediumOrangeBalloon(); }
     return null;
   }
 }
