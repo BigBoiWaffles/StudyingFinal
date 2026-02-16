@@ -1,4 +1,4 @@
-package ca.utoronto.utm.examjam.FSMandRegex;
+// package ca.utoronto.utm.examjam.FSMandRegex;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,73 +35,126 @@ import java.util.regex.Pattern;
 // FIX THE CODE BELOW!!
 
 public class Validator {
-    public static void main(String[] args) {
-        Validator v = new Validator(args[1]);
-    }
+  public static void main(String[] args) {
+    Validator v = new Validator("phone_data.txt");
+    try {
+      v.validate();
+      for (Map.Entry<String, ArrayList<PhoneNumber>> entry : v.getPhoneNumbers().entrySet()) {
 
-    public Validator(String fileName) {
-        this.fileName = fileName;
-    }
+        String groupName = entry.getKey();
+        ArrayList<PhoneNumber> numbers = entry.getValue();
 
-    private void error(String mesg){
-        this.errorMessage=lineNumber+":"+mesg;
-        this.isParse=false;
-    }
+        System.out.println("Group: " + groupName);
 
-    private int lineNumber = 0;
-    private String errorMessage = "";
-    private String fileName = "";
-    private boolean isParse = false;
-    private Map<String, ArrayList<PhoneNumber>> phoneNumbers = new HashMap<>();
-
-    public void validate() throws Exception {
-        BufferedReader inputStream = null;
-        try {
-            Pattern pColons = Pattern.compile("^:{14}$");
-            Pattern pStartMarksLine = Pattern.compile("^MARKS For Assignment 1, Part 2$");
-            Pattern pGUIMarks = Pattern.compile("^GUI:\\s*(\\d(.\\d)?)/5\\s*$");
-            Pattern pCodeMarks = Pattern.compile("^CODE:\\s*(\\d(.\\d)?)/5\\s*$");
-            Pattern pEndMarksLine = Pattern.compile("^END MARKS$");
-            Pattern pUtorid=Pattern.compile("^(.*)/JugPuzzleGame/src/JugPuzzleGUIController\\.java$");
-
-            inputStream = new BufferedReader(new FileReader(this.fileName));
-
-            int state = 0;
-
-            Matcher m;
-            String l, utorid = "";
-            float guiMark = 0, codeMark = 0;
-            lineNumber = 0;
-            while ((l = inputStream.readLine()) != null) {
-                lineNumber++;
-                switch (state) {
-                    case 0:
-                        m = pColons.matcher(l);
-                        if (m.matches()) {
-                            utorid = "";
-                            guiMark = 0;
-                            codeMark = 0;
-                            state = 1;
-                        }
-                        break;
-                    case 1:
-                        m = pUtorid.matcher(l);
-                        if (m.matches()) {
-                            utorid = m.group(1);
-                            state = 2;
-                        } else {
-                            error("Expecting utorid line");
-                            return;
-                        }
-                }
-            }
-            if (state != 0) {
-                error("Expected end of file");
-            }
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
+        for (PhoneNumber p : numbers) {
+          System.out.println("  " + p);
         }
+      }
+    } catch (Exception e) {}
+  }
+
+  public Validator(String fileName) {
+    this.fileName = fileName;
+  }
+
+  public Map<String, ArrayList<PhoneNumber>> getPhoneNumbers(){
+    return this.phoneNumbers;
+  }
+
+  private void error(String mesg){
+    this.errorMessage=lineNumber+":"+mesg;
+    this.isParse=false;
+  }
+
+  private int lineNumber = 0;
+  private String errorMessage = "";
+  private String fileName = "";
+  private boolean isParse = false;
+  private Map<String, ArrayList<PhoneNumber>> phoneNumbers = new HashMap<>();
+  
+  public void validate() throws Exception {
+    BufferedReader inputStream = null;
+    try {
+      
+      Pattern pBEGIN = Pattern.compile("^BEGIN:(\\w+)$");
+      Pattern pEND = Pattern.compile("^END$");
+
+      // Group 1: Country Code, Group 2: Area Code, Group 3: Central Office Code, Group 4: Line Number
+      Pattern pINTERNATIONAL = Pattern.compile("^(\\d)\\((\\d{3})\\)(\\d{3})-(\\d{4})$");
+      
+      // Group 1: Central Office Code, Group 2: Line Number
+      Pattern pLOCAL = Pattern.compile("^(\\d{3})-(\\d{4})$");
+
+      inputStream = new BufferedReader(new FileReader(this.fileName));
+
+      ArrayList<PhoneNumber> phoneList = null;
+
+      int state = 0;
+
+      Matcher m;
+      String line;
+      lineNumber = 0;
+      while ((line = inputStream.readLine()) != null) {
+        lineNumber++;
+        switch (state) {
+          case 0:
+            m = pBEGIN.matcher(line);
+            if (m.matches()) {
+
+              phoneList = new ArrayList<PhoneNumber>();
+              
+              if (!phoneNumbers.containsKey(m.group(1))){
+                phoneNumbers.put(m.group(1), phoneList);
+              }
+              state = 1;
+            } else {
+              state = 2;
+            }
+            break;
+          case 1:
+
+            if (pEND.matcher(line).matches()){
+              state = 0;
+              break;
+            }
+
+            m = pINTERNATIONAL.matcher(line);
+            if (m.matches()){
+              PhoneNumber pN = new PhoneNumber();
+
+              pN.setCountryCode(m.group(1));
+              pN.setAreaCode(m.group(2));
+              pN.setCentralOfficeCode(m.group(3));
+              pN.setLineNumber(m.group(4));
+
+              phoneList.add(pN);
+
+              state = 1;
+            } else {
+              m = pLOCAL.matcher(line);
+              if (m.matches()){
+                PhoneNumber pN = new PhoneNumber();
+
+                pN.setCountryCode("0");
+                pN.setAreaCode("0");
+                pN.setCentralOfficeCode(m.group(1));
+                pN.setLineNumber(m.group(2));
+
+                phoneList.add(pN);
+                state = 1;
+              }
+            }
+          case 2:
+            break;
+        }
+      }
+      if (state == 2) {
+        error("Not supposed to be here");
+      }
+    } finally {
+      if (inputStream != null) {
+        inputStream.close();
+      }
     }
+  }
 }
