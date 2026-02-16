@@ -1,5 +1,4 @@
-package ca.utoronto.utm.examjam.balloon;
-
+//package ca.utoronto.utm.examjam.balloon;
 
 /**
  * EXERCISE: Complete BalloonFactory
@@ -16,4 +15,10 @@ package ca.utoronto.utm.examjam.balloon;
  * "MediumOrangeBalloon"
  */
 public class BalloonFactory {
+  public Balloon getBalloon(String s){
+    if (s == "BigRedBalloon"){ return new BigRedBalloon(); }
+    if (s == "SmallGreenBalloon") { return new SmallGreenBalloon(); }
+    if (s == "MediumOrangeBalloon") { return new MediumOrangeBalloon(); }
+    return null;
+  }
 }

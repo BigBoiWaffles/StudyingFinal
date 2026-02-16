@@ -276,7 +276,7 @@ Floating Point error:
 			
 				  sign:      1  bit
 				  exp:       11 bits (with an offset of 1023, instead of 127)
-				  mantissa:  52 bits (instead of 32)
+				  mantissa:  52 bits (instead of 23)
 
 
 	
