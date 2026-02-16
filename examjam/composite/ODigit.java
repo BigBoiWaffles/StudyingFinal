@@ -1,4 +1,4 @@
-package ca.utoronto.utm.examjam.composite;
+// package ca.utoronto.utm.examjam.composite;
 
 public class ODigit implements AODigit {
 	private AODigit next;
@@ -9,6 +9,10 @@ public class ODigit implements AODigit {
 		this.digit=0;
 	}
 
+  public AODigit getNext(){ return this.next; }
+  public int getDigit(){ return this.digit; }
+  public void setDigit(int n){ this.digit = n; }
+/*
 	@Override
 	public void increment() {
 		this.digit++;
@@ -32,6 +36,9 @@ public class ODigit implements AODigit {
 			this.next.decrement();
 		}
 	}
-
-
+*/
+  @Override
+  public void accept(Visitor v){
+    v.visit(this);
+  }
 }
